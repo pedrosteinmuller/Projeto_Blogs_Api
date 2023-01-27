@@ -28,8 +28,16 @@ const getUserById = async (id) => {
   return { type: 200, message: user };
 };
 
+const findUserById = async (email) => {
+  const { dataValues } = await 
+  User.findOne({ where: { email } });
+
+  return dataValues;
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  findUserById,
 };

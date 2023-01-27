@@ -1,14 +1,16 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { userService } = require('../services');
 
 const TOKEN_SECRET = process.env.JWT_SECRET;
 
-const analyzeToken = (req, res, next) => {
+const analyzeToken = async (req, res, next) => {
   const { authorization: token } = req.headers;
   if (!token) return res.status(401).json({ message: 'Token not found' });
   try {
     const decoded = jwt.verify(token, TOKEN_SECRET);
-    res.locals.user = decoded;
+    const user = await userService.findUserById(decoded.id);
+    req.user = user;
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Expired or invalid token' });
