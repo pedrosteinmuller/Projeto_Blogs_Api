@@ -3,15 +3,16 @@ module.exports = (sequelize, DataTypes) => {
   'BlogPost',
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
-    title: { allowNull: false, type: DataTypes.STRING },
-    content: { allowNull: false, type: DataTypes.STRING },
-    userId: { allowNull: false, type: DataTypes.INTEGER, foreignKey: true },
-    published: { allowNull: false, type: DataTypes.DATE },
-    updated: { allowNull: false, type: DataTypes.DATE },
+    title: { type: DataTypes.STRING },
+    content: {type: DataTypes.STRING },
+    userId: {type: DataTypes.INTEGER, foreignKey: true },
+    published: {type: DataTypes.DATE, defaultValue: sequelize.literal('CURRENT_TIMESTAMP') },
+    updated: { allowNull: false, type: DataTypes.DATE, defaultValue: sequelize.literal('CURRENT_TIMESTAMP') },
   },
   {
     timestamps: false,
     underscored: true,
+    tableName: 'blog_posts',
   },
 );
 
