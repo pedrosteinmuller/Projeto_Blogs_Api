@@ -42,8 +42,8 @@ const getAll = async () => {
   return { type: 200, message: allPosts };
 };
 
-const getPostsById = async (id) => {
-  const post = await BlogPost.findByPk(id, {
+const getPostsById = async (userId) => {
+  const post = await BlogPost.findByPk(userId, {
     include: [
       {
         model: User,
@@ -58,7 +58,7 @@ const getPostsById = async (id) => {
     ],
   });
   if (!post) return { type: 404, message: 'Post does not exist' };
-  return { type: 200, messsage: post };
+  return { type: 200, message: post };
 };
 
 module.exports = {
