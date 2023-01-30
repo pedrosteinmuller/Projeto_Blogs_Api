@@ -2,8 +2,6 @@ const { BlogPost, PostCategory, User, Category } = require('../models');
 // const userService = require('./user.service');
 
 const create = async (userId, { title, content, categoryIds }) => {
-  // const { id: userId } = await User.findOne({ where: { id } });
-  // console.log(userId);
   const post = await BlogPost.create({ title, content, userId });
   const categoriesId = categoryIds.map((item) => ({ 
     postId: post.id, 
@@ -61,8 +59,22 @@ const getPostsById = async (userId) => {
   return { type: 200, message: post };
 };
 
+const updatePost = async (id, body) => {
+  const { title, content, userId } = body;
+  // na linha 65 estou pegando o post pelo id a ser atualizado;
+  const updatePostById = await getPostsById(id);
+  // na verificao abaixo, acesso a chave message e depois o usuario dentro do objeto updatePostById e faço a verificacao de autenticaçõa.
+  if (updatePostById.message.userId !== userId) return { type: 401, message: 'Unauthorized user' };
+  await BlogPost.update({ title, content }, {
+    where: { id },
+  });
+  const getNewUpdate = await getPostsById(id);
+  return { type: 200, message: getNewUpdate.message };
+};
+
 module.exports = {
   create,
   getAll,
   getPostsById,
+  updatePost,
 };
