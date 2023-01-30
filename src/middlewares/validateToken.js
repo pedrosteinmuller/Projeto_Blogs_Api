@@ -10,7 +10,7 @@ const analyzeToken = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, TOKEN_SECRET);
     // const user = await userService.findUserById(decoded.id);
-    // console.log(decoded);
+    console.log(decoded);
     // console.log(req.user.payload);
     req.user = decoded;
     next();
