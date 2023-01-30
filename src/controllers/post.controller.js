@@ -30,9 +30,19 @@ const updatePostById = async (req, res) => {
   return res.status(type).json(message);
 };
 
+const deletePostById = async (req, res) => {
+  const { id } = req.params;
+  const { id: userId } = req.user.payload;
+
+  const { type, message } = await postService.deletePost(id, userId);
+  if (type !== 204) return res.status(type).json({ message });
+  return res.status(type).json(message);
+};
+
 module.exports = {
   create,
   getAll,
   getPostsById,
   updatePostById,
+  deletePostById,
 };
