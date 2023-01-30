@@ -3,6 +3,7 @@ const { BlogPost, PostCategory, User, Category } = require('../models');
 
 const create = async (userId, { title, content, categoryIds }) => {
   const post = await BlogPost.create({ title, content, userId });
+  console.log(post, 'datavalues aqui');
   const categoriesId = categoryIds.map((item) => ({ 
     postId: post.id, 
     categoryId: item,
